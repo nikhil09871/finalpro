@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+</head>
+<body>
+
+    <h1>Checkout Page</h1>
+
+    <div id="checkout-items">
+        <!-- Checkout items will be displayed here -->
+    </div>
+
+    <h3>Total Price: $<span id="total-price">0</span></h3>
+
+    <button onclick="completeCheckout()">Complete Checkout</button>
+
+    <script>
+        function displayCheckoutItems() {
+            // Fetch the cart data from local storage
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            const checkoutItemsContainer = document.getElementById('checkout-items');
+            checkoutItemsContainer.innerHTML = '';
+
+            // Display the items in the cart on the checkout page
+            cart.forEach(item => {
+                const itemInfo = document.createElement('p');
+                itemInfo.textContent = `${item.productName} - Quantity: ${item.quantity} - Price: $${item.price * item.quantity}`;
+                checkoutItemsContainer.appendChild(itemInfo);
+            });
+
+            // Calculate and display the total price
+            const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+            document.getElementById('total-price').textContent = totalPrice.toFixed(2);
+        }
+
+        function completeCheckout() {
+            // You can add additional logic here for completing the checkout process
+            // For example, clearing the cart, updating inventory, or processing payment
+            alert('Checkout completed successfully!');
+            localStorage.removeItem('cart'); // Clear the cart after checkout
+            window.location.href = 'index.html'; // Redirect to the home page or another page
+        }
+
+        // Display checkout items when the page loads
+        window.addEventListener('load', displayCheckoutItems);
+    </script>
+
+</body>
+</html>
